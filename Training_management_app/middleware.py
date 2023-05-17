@@ -8,16 +8,16 @@ class LoginCheckMiddleWare(MiddlewareMixin):
         modulename = view_func.__module__
         user = request.user # Who is the current user ?
         if user.is_authenticated:
-            if user.user_type == '1': # Is it the HOD/Admin
+            if user.user_type == '1': # Is it the Management/Admin
                 if modulename == 'Training-management_app.studentviews':
                     return redirect(reverse('admin_home'))
-            elif user.user_type == '2': #  Staff :-/ ?
+            elif user.user_type == '2': #  Trainer :-/ ?
                 if modulename == 'Training_management_app.studentviews' or modulename == 'Training_management_app.managementviews':
                     return redirect(reverse('trainer_home'))
             elif user.user_type == '3': # ... or Student ?
                 if modulename == 'Training_management_app.managementviews' or modulename == 'Training_management_app.trainerviews':
                     return redirect(reverse('student_home'))
-            else: # None of the aforementioned ? Please take the user to login page
+            else:
                 return redirect(reverse('login_page'))
         else:
             if request.path == reverse('login_page') or modulename == 'django.contrib.auth.views' or request.path == reverse('user_login'): # If the path is login or has anything to do with authentication, pass

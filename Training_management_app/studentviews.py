@@ -116,7 +116,6 @@ def student_feedback(request):
         'form': form,
         'feedbacks': FeedbackStudent.objects.filter(student=student),
         'page_title': 'Student Feedback'
-
     }
     if request.method == 'POST':
         if form.is_valid():
@@ -194,7 +193,6 @@ def student_view_notification(request):
         'page_title': "View Notifications"
     }
     return render(request, "student_template/student_view_notification.html", context)
-
 
 def student_view_result(request):
     student = get_object_or_404(Student, admin=request.user)

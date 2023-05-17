@@ -24,9 +24,7 @@ def admin_home(request):
     attendance_list = []
     subject_list = []
     for subject in subjects:
-        print(subject.name)
         attendance_count = Attendance.objects.filter(subject=subject).count()
-        print(attendance_count)
         subject_list.append(subject.name)
         attendance_list.append(attendance_count)
     # Total Subjects and students in Each Course
@@ -80,7 +78,6 @@ def admin_home(request):
         "student_count_list_in_course": student_count_list_in_course,
         "course_name_list": course_name_list,
     }
-    print(context)
     return render(request, 'management_template/home_content.html', context)
 
 
@@ -110,7 +107,6 @@ def add_trainer(request):
                 user.save()
                 messages.success(request, "Successfully Added")
                 return redirect(reverse('add_trainer'))
-
             except Exception as e:
                 messages.error(request, "Could Not Add " + str(e))
         else:
@@ -213,7 +209,7 @@ def manage_trainer(request):
 
 
 def manage_student(request):
-    students = CustomUser.objects.firequirements.txtlter(user_type=3)
+    students = CustomUser.objects.filter(user_type=3)
     context = {
         'students': students,
         'page_title': 'Manage Students'

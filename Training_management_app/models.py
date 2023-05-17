@@ -27,17 +27,14 @@ class CustomUserManager(UserManager):
         assert extra_fields["is_superuser"]
         return self._create_user(email, password, **extra_fields)
 
-
 class Session(models.Model):
     start_year = models.DateField()
     end_year = models.DateField()
-
     def __str__(self):
         return "From " + str(self.start_year) + " to " + str(self.end_year)
 
-
 class CustomUser(AbstractUser):
-    USER_TYPE = ((1, "AdminHOD"), (2, "Trainer"), (3, "Student"))
+    USER_TYPE = ((1, "Management"), (2, "Trainer"), (3, "Student"))
     GENDER = [("M", "Male"), ("F", "Female")]
     username = None  # Removed username, using email instead
     email = models.EmailField(unique=True)
@@ -54,10 +51,8 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.last_name + ", " + self.first_name
 
-
 class Admin(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-
 
 class Course(models.Model):
     name = models.CharField(max_length=120)
@@ -67,7 +62,6 @@ class Course(models.Model):
     def __str__(self):
         return self.name
 
-
 class Student(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.DO_NOTHING, null=True, blank=False)
@@ -76,14 +70,12 @@ class Student(models.Model):
     def __str__(self):
         return self.admin.last_name + ", " + self.admin.first_name
 
-
 class Trainer(models.Model):
     course = models.ForeignKey(Course, on_delete=models.DO_NOTHING, null=True, blank=False)
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.admin.last_name + " " + self.admin.first_name
-
 
 class Subject(models.Model):
     name = models.CharField(max_length=120)

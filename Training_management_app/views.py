@@ -54,7 +54,7 @@ def doLogin(request, **kwargs):
                 print("login us admin")
                 return redirect(reverse("admin_home"))
             elif user.user_type == '2':
-                print("login us staff")
+                print("login us Trainer")
                 return redirect(reverse("trainer_home"))
             else:
                 print("login us student")
